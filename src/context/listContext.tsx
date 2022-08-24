@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, LegacyRef, MutableRefObject, useContext, useRef, useState } from "react";
 
 type childrenType = {
 	children: JSX.Element | JSX.Element[];
@@ -20,7 +20,7 @@ const listContext = createContext({
 	dataToEdit: { editing: false, id: "" },
 	changeInputValue: (value: string, data?: dataToEditType) => {},
 
-	inputRef: {},
+	inputRef: null,
 	list: [{ id: "", title: "", doit: false }],
 
 	putRefInInput: () => {},
@@ -35,7 +35,7 @@ export function ListProvider({ children }: childrenType) {
 	const [dataToEdit, setDataToEdit] = useState<dataToEditType>({ editing: false, id: "" });
 	const [inputValue, setInputValue] = useState<string>("");
 	const [list, setList] = useState<Array<listType>>([]);
-	const inputRef = useRef<HTMLInputElement | null>(null);
+	const inputRef = useRef<HTMLInputElement>();
 
 	// * change the input value and determine when is the user editing
 	function handleChangeInputValue(value: string, data = { editing: false, id: "" }) {
@@ -85,7 +85,7 @@ export function ListProvider({ children }: childrenType) {
 				changeInputValue: handleChangeInputValue,
 
 				list,
-				inputRef,
+				inputRef: null,
 
 				putRefInInput: handleRef,
 
