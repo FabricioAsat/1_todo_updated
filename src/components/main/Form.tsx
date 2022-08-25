@@ -1,14 +1,16 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { useListContext } from "../../context/listContext";
 
 export const Form = () => {
+	const inputRef = useRef<HTMLInputElement | null>(null!);
+
 	const {
 		inputValue,
 		dataToEdit,
 		changeInputValue,
 		createTask,
 		editTask,
-		inputRef,
+		reference,
 		putRefInInput,
 	} = useListContext();
 
@@ -26,6 +28,11 @@ export const Form = () => {
 		if (e.target.value.length > 50) return;
 		changeInputValue(e.target.value, dataToEdit);
 	}
+
+	// * Put reference in focus.
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, [reference]);
 
 	return (
 		<form

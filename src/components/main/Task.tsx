@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 // ! Contexts
 import { useIsDarkContext } from "../../context/darkContext";
 import { listType, useListContext } from "../../context/listContext";

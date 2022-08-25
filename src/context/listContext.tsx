@@ -1,4 +1,4 @@
-import { createContext, LegacyRef, MutableRefObject, useContext, useRef, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 type childrenType = {
 	children: JSX.Element | JSX.Element[];
@@ -20,9 +20,9 @@ const listContext = createContext({
 	dataToEdit: { editing: false, id: "" },
 	changeInputValue: (value: string, data?: dataToEditType) => {},
 
-	inputRef: null,
 	list: [{ id: "", title: "", doit: false }],
 
+	reference: false,
 	putRefInInput: () => {},
 	createTask: (title: string) => {},
 	checkTask: (id: string) => {},
@@ -35,7 +35,7 @@ export function ListProvider({ children }: childrenType) {
 	const [dataToEdit, setDataToEdit] = useState<dataToEditType>({ editing: false, id: "" });
 	const [inputValue, setInputValue] = useState<string>("");
 	const [list, setList] = useState<Array<listType>>([]);
-	const inputRef = useRef<HTMLInputElement>();
+	const [reference, setReference] = useState(false);
 
 	// * change the input value and determine when is the user editing
 	function handleChangeInputValue(value: string, data = { editing: false, id: "" }) {
@@ -45,7 +45,7 @@ export function ListProvider({ children }: childrenType) {
 
 	// * Put the reference focus in the input.
 	function handleRef() {
-		inputRef?.current?.focus();
+		setReference(!reference);
 	}
 
 	// * Create a new task
@@ -85,8 +85,8 @@ export function ListProvider({ children }: childrenType) {
 				changeInputValue: handleChangeInputValue,
 
 				list,
-				inputRef: null,
 
+				reference,
 				putRefInInput: handleRef,
 
 				createTask: handleCreateTask,

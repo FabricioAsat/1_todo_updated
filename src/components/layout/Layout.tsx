@@ -1,4 +1,3 @@
-import React from "react";
 import { useIsDarkContext } from "../../context/darkContext";
 import { Footer } from "../footer/Footer";
 import { Header } from "../header/Header";
